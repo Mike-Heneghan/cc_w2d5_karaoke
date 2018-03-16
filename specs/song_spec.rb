@@ -17,5 +17,5 @@ class TestSong < MiniTest::Test
     assert_equal("The XX", @song3.artist())
     assert_equal("Orthodox Man", @song2.title())
   end
-  
+
 end

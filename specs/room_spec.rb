@@ -13,6 +13,9 @@ class TestRoom < MiniTest::Test
     @guest2 = Guest.new("Mariana")
     @guest3 = Guest.new("Andrew")
     @guest4 = Guest.new("Claudia")
+    @guest5 = Guest.new("Lewis")
+    @guest6 = Guest.new("Amie")
+    @guest7 = Guest.new("Graeme")
 
     @song1 = Song.new("Redbone", "Childish Gambino")
     @song2 = Song.new("Orthodox Man", "Blaenavon")
@@ -54,5 +57,40 @@ class TestRoom < MiniTest::Test
     assert_equal([@guest1, @guest3], @room1.occupants())
   end
 
-  
+  def test_capcity_of_room__still_capacity
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+    @room1.check_in_guest(@guest4)
+
+    assert_equal(4, @room1.capacity())
+
+  end
+
+  def test_capacity_of_room__unable_to_add_guest
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+    @room1.check_in_guest(@guest4)
+    @room1.check_in_guest(@guest5)
+    @room1.check_in_guest(@guest6)
+
+    assert_equal(5, @room1.capacity())
+
+  end
+
+  def test_capacity_of_room__guest_removed
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+    @room1.check_in_guest(@guest4)
+    @room1.check_in_guest(@guest5)
+
+    @room1.check_out_guest(@guest2)
+
+    assert_equal(4, @room1.capacity())
+  end
+
+
+
 end

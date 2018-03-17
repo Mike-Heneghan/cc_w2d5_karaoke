@@ -13,6 +13,12 @@ class TestGuest < MiniTest::Test
 
   def test_creation_of_guest
     assert_equal("Mike",@guest1.name())
+    assert_equal(20, @guest1.wallet())
+  end
+
+  def test_pay_entrance_fee
+    @guest1.pay_entrance_fee(5)
+    assert_equal(15, @guest1.wallet())
   end
 
 end

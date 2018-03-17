@@ -91,6 +91,14 @@ class TestRoom < MiniTest::Test
     assert_equal(4, @room1.capacity())
   end
 
+  def test_entrance_fees__guest
+    @room1.check_in_guest(@guest1)
 
+    assert_equal(5, @room1.total_cash())
+    assert_equal(15, @guest1.wallet())
+
+  end
+
+  def test_entrance_fees__many
 
 end

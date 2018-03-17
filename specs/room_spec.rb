@@ -31,8 +31,28 @@ class TestRoom < MiniTest::Test
     assert_equal(1, result_name)
     assert_equal(0, result_guests)
     assert_equal(0, result_songs)
-    
+
   end
 
+  def test_add_song_to_playlist
+    @room1.add_song_to_playlist(@song3)
+    assert_equal(1,@room1.playlist.length())
+  end
 
+  def test_check_in_guest
+    @room1.check_in_guest(@guest2)
+    assert_equal(1,@room1.occupants.length)
+  end
+
+  def test_check_out_guest
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+    @room1.check_out_guest(@guest2)
+
+    assert_equal(2, @room1.occupants.length)
+    assert_equal([@guest1, @guest3], @room1.occupants())
+  end
+
+  
 end

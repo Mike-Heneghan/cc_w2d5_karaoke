@@ -1,5 +1,6 @@
 require("minitest/autorun")
 require("minitest/rg")
+require("pry")
 
 require_relative("../room.rb")
 require_relative("../guest.rb")
@@ -9,17 +10,18 @@ class TestRoom < MiniTest::Test
 
   def setup
 
-    @guest1 = Guest.new("Mike")
-    @guest2 = Guest.new("Mariana")
-    @guest3 = Guest.new("Andrew")
-    @guest4 = Guest.new("Claudia")
-    @guest5 = Guest.new("Lewis")
-    @guest6 = Guest.new("Amie")
-    @guest7 = Guest.new("Graeme")
+    @guest1 = Guest.new("Mike", "Orthodox Man")
+    @guest2 = Guest.new("Mariana", "On Hold")
+    @guest3 = Guest.new("Andrew", "Redbone")
+    @guest4 = Guest.new("Claudia", "Evil Friends")
+    @guest5 = Guest.new("Lewis", "Stairway to Heaven")
+    @guest6 = Guest.new("Amie", "Wasn't me!")
+    @guest7 = Guest.new("Graeme", "Stay")
 
     @song1 = Song.new("Redbone", "Childish Gambino")
     @song2 = Song.new("Orthodox Man", "Blaenavon")
     @song3 = Song.new("On Hold", "The XX")
+    @song4 = Song.new("Stay", "The XX")
 
     @room1 = Room.new(1)
     @room2 = Room.new(2)
@@ -38,6 +40,12 @@ class TestRoom < MiniTest::Test
   end
 
   def test_add_song_to_playlist
+    @room1.add_song_to_playlist(@song3)
+    assert_equal(1,@room1.playlist.length())
+  end
+
+  def test_add_song_already_in_playlist
+    @room1.add_song_to_playlist(@song3)
     @room1.add_song_to_playlist(@song3)
     assert_equal(1,@room1.playlist.length())
   end
@@ -94,11 +102,37 @@ class TestRoom < MiniTest::Test
   def test_entrance_fees__guest
     @room1.check_in_guest(@guest1)
 
-    assert_equal(5, @room1.total_cash())
+    assert_equal(5, @room1.sum_entrance_fees())
     assert_equal(15, @guest1.wallet())
 
   end
 
-  def test_entrance_fees__many
+  def test_entrance_fees__many_guests
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+    @room1.check_out_guest(@guest2)
+    @room1.check_in_guest(@guest5)
 
+    assert_equal(20, @room1.sum_entrance_fees())
+  end
+
+  def test_occupant_celebrates_song_in_playlist
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+
+    assert_equal("Yaaaaay they're going to play On Hold!", @room1.add_song_to_playlist(@song3))
+  end
+
+  def test_occupant_celebrates_song_in_playlist__not_favourite
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+    @room1.check_in_guest(@guest3)
+
+    assert_equal(nil, @room1.add_song_to_playlist(@song4))
+  end
+
+  def test_guest_celebrates_on_checkin_if_song_in_playlist
+  end 
 end

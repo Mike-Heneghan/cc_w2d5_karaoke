@@ -1,6 +1,6 @@
 class Room
 
-  attr_reader :name_room, :occupants, :playlist, :capacity, :entrance_fees, :total_cash
+  attr_reader :name_room, :occupants, :playlist, :capacity, :entrance_fees, :sum_entrance_fees
 
   def initialize (input_name_room)
     @name_room = input_name_room
@@ -8,20 +8,30 @@ class Room
     @playlist = []
     @capacity = 0
     @entrance_fee = 5
-    @total_cash = 0
+    @sum_entrance_fees = 0
 
   end
 
   def add_song_to_playlist(song_name)
-    @playlist << song_name
-  end
+    celebrate = []
+    if @playlist.include?(song_name) == false
+      @playlist << song_name
+    end
+    for occupant in @occupants
+      if occupant.favourite_song() == song_name.title()
+        celebrate << occupant.celebrate_fav_song()
+      end
+    end
+  
+  return celebrate[0]
+end
 
   def check_in_guest(guest_name)
     if @capacity < 5
       @occupants << guest_name
       @capacity += 1
       guest_name.pay_entrance_fee(@entrance_fee)
-      @total_cash += @entrance_fee
+      @sum_entrance_fees += @entrance_fee
     end
   end
 

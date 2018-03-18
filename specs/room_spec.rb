@@ -134,5 +134,17 @@ class TestRoom < MiniTest::Test
   end
 
   def test_guest_celebrates_on_checkin_if_song_in_playlist
-  end 
+    @room1.check_in_guest(@guest1)
+    @room1.check_in_guest(@guest2)
+
+    @room1.add_song_to_playlist(@song4)
+    @room1.add_song_to_playlist(@song1)
+
+    assert_equal("Yaaaaay they're going to play Redbone!", @room1.check_in_guest(@guest3))
+
+  end
+
+
+
+
 end

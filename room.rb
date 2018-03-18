@@ -22,17 +22,25 @@ class Room
         celebrate << occupant.celebrate_fav_song()
       end
     end
-  
+
   return celebrate[0]
 end
 
   def check_in_guest(guest_name)
+    celebrate = []
     if @capacity < 5
       @occupants << guest_name
       @capacity += 1
       guest_name.pay_entrance_fee(@entrance_fee)
       @sum_entrance_fees += @entrance_fee
     end
+    for song in @playlist
+      if song.title() == guest_name.favourite_song()
+        celebrate << guest_name.celebrate_fav_song()
+      end
+    end
+
+    return celebrate[0]
   end
 
   def check_out_guest(guest_name)

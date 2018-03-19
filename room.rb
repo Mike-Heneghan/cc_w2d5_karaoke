@@ -2,11 +2,12 @@ class Room
 
   attr_reader :name_room, :occupants, :playlist, :capacity, :entrance_fees, :sum_entrance_fees
 
-  def initialize (input_name_room)
+  def initialize (input_name_room, max_cap = 5)
     @name_room = input_name_room
     @occupants = []
     @playlist = []
-    @capacity = 0
+    @capacity = 0 # number people in the room now
+    @max_capacity =  max_cap # number people in the room now
     @entrance_fee = 5
     @sum_entrance_fees = 0
 
@@ -28,7 +29,7 @@ end
 
   def check_in_guest(guest_name)
     celebrate = []
-    if @capacity < 5
+    if @capacity < @max_capacity
       @occupants << guest_name
       @capacity += 1
       guest_name.pay_entrance_fee(@entrance_fee)
@@ -49,3 +50,9 @@ end
   end
 
 end
+
+
+# Remember capacity variable could be replaced by occupants.length
+# update the uml diagram with return then the purpose of the method.
+# add bar tab and check in group function.
+# look into the runner file
